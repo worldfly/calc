@@ -12,8 +12,11 @@ bool isDigit (char b) {
 int main () {
     std::string a;
     std::cin >> a;
-    std::string::iterator it = a.begin();
-    std::cout << isDigit(*it);
+
+    for (std::string::reverse_iterator it = a.rbegin(); it != a.rend(); ++it) {
+        std::cout << isDigit(*it);
+
+    }
 
     return 0;
 }
