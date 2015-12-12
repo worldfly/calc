@@ -13,7 +13,9 @@ class Exception {
 public:
     string err;
     Exception(string s) : err(s){};
-    string what() { return err; };
+    string what() {
+        return err;
+    };
 };
 
 void error(string s) {
@@ -121,18 +123,23 @@ double primary() {
             if (t.kind != ')') error("')' expected");
             return d;
         }
+
         case '{': {
             double d = expression();
             t = ts.get();
             if (t.kind != '}') error("'}' expected");
             return d;
         }
+
         case '-':
             return -primary();
+
         case '+':
             return primary();
+
         case '8':
             return t.value;
+
         default:
             error("primary expected");
     }
@@ -165,6 +172,7 @@ double term() {
                 left *= postfix();
                 t = ts.get();
                 break;
+
             case '/': {
                 double d = postfix();
                 if (d == 0) error("divide by zero");
@@ -172,6 +180,7 @@ double term() {
                 t = ts.get();
                 break;
             }
+
             case '%': {
                 double d = term();
                 int i1 = int(left);
@@ -184,6 +193,7 @@ double term() {
                 ts.putback(t);
                 break;
             }
+
             default:
                 ts.putback(t);
                 return left;
@@ -201,10 +211,12 @@ double expression() {
                 left += term();
                 t = ts.get();
                 break;
+
             case '-':
                 left -= term();
                 t = ts.get();
                 break;
+
             default:
                 ts.putback(t);
                 return left;
@@ -217,13 +229,19 @@ int main(int argc, char* argv[]) {
         try {
             cout << prompt;
             Token t = ts.get();
-            while (t.kind == print) t = ts.get();
-            if (t.kind == quit) return 0;
+            while (t.kind == print) {
+                t = ts.get();
+            }
+            if (t.kind == quit) {
+                return 0;
+            }
 
             ts.putback(t);
             cout << result << expression() << endl;
+
         } catch (Exception& e) {
             cerr << e.what() << endl;
+            
         } catch (...) {
             return 2;
         }
