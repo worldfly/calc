@@ -175,7 +175,9 @@ double term() {
 
             case '/': {
                 double d = postfix();
-                if (d == 0) error("divide by zero");
+                if (d == 0) {
+                    error("divide by zero");
+                }
                 left /= d;
                 t = ts.get();
                 break;
@@ -184,10 +186,16 @@ double term() {
             case '%': {
                 double d = term();
                 int i1 = int(left);
-                if (i1 != left) error("left operand of % isn't an integer");
+                if (i1 != left) {
+                    error("left operand of % isn't an integer");
+                }
                 int i2 = int(d);
-                if (i2 != d) error("right operand of % isn't an integer");
-                if (i2 == 0) error("divide by zero");
+                if (i2 != d) {
+                    error("right operand of % isn't an integer");
+                }
+                if (i2 == 0) {
+                    error("divide by zero");
+                }
                 left = i1 % i2;
                 // return left;
                 ts.putback(t);
@@ -241,7 +249,7 @@ int main(int argc, char* argv[]) {
 
         } catch (Exception& e) {
             cerr << e.what() << endl;
-            
+
         } catch (...) {
             return 2;
         }
