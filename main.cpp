@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -66,6 +67,7 @@ Token Token_stream::get() {
     switch (ch) {
         case print:
         case quit:
+        case 'l': case 's': case 'c': case '^':
         case '{': case '}': case '(': case ')': case '+':
         case '-': case '*': case '/': case '%': case '!':
             return Token(ch);
@@ -137,6 +139,15 @@ double primary() {
         case '+':
             return primary();
 
+        case 'l':
+            return log(primary());
+
+        case 's':
+            return sin(primary());
+
+        case 'c':
+            return cos(primary());
+
         case '8':
             return t.value;
 
@@ -199,6 +210,16 @@ double term() {
                 left = i1 % i2;
                 // return left;
                 ts.putback(t);
+                break;
+            }
+
+            case '^': {
+                double d = postfix();
+                if (d == 0) {
+                    error("divide by zero");
+                }
+                left = pow(left, d);
+                t = ts.get();
                 break;
             }
 
