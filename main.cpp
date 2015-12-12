@@ -215,9 +215,6 @@ double term() {
 
             case '^': {
                 double d = postfix();
-                if (d == 0) {
-                    error("divide by zero");
-                }
                 left = pow(left, d);
                 t = ts.get();
                 break;
