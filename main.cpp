@@ -119,17 +119,6 @@ Token Token_stream::get() {
     }
 }
 
-/* отбрасывает символы, предшествующие символу c включительно */
-void Token_stream::ignore(char c) {
-    if (full && c == buffer.kind) { // сначала проверяем буфер
-        full = false;
-        return;
-    }
-    full = false;
-    char ch = 0;
-    while (cin >> c)
-        if (ch == c) return;
-}
 /* end of Token class */
 
 /* Variable class */
@@ -382,7 +371,6 @@ int main(int argc, char* argv[]) {
             if (exit) return 0;
         } catch (Exception& e) {
             cerr << e.what() << endl;
-            ts.ignore(print); // игнорируем поток символов с ошибкой до символа печати
         } catch (...) {
             return 2;
         }
