@@ -11,6 +11,9 @@ const char print = ';'; // лексема вычисления результа�
 const char number = '0'; // лексема числа
 const char let = 'L'; // лексема let
 const char var_name = 'a'; // лексема name
+const char llog = 'l'; // лексема логарифма
+const char lsin = 's'; // лексема синуса
+const char lcos = 'c'; // лексема косинуса
 const string prompt = "> ";
 const string result = "= ";
 const string declare = "let";
@@ -107,6 +110,9 @@ Token Token_stream::get() {
                 s += ch;
             cin.putback(ch);
             if (s == declare) return Token(let); // ключевое слово let
+            if (s == "log") return Token(llog);
+            if (s == "cos") return Token(lcos);
+            if (s == "sin") return Token(lsin);
             return Token(var_name, s);
         }
         error("bad token");
@@ -215,6 +221,13 @@ double primary() {
     case number:
         return t.value;
         
+    case llog:
+        return log(primary());
+    case lsin:
+        return sin(primary());
+    case lcos:
+        return cos(primary());
+
     default:
         error("primary expected");
     }
@@ -409,7 +422,10 @@ int main(int argc, char* argv[]) {
     Число
     "(" Выражение ")"
     "-" Первичное выражение // унарный минус - отрицательное число
-    "+" Первичное выражение // унарный плю
+    "+" Первичное выражение // унарный плюс
+    "log" Первичное выражение
+    "sin" Первичное выражение
+    "cos" Первичное выражение
 Число:
     литерал_с_плавающей_точкой
 
